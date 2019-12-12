@@ -15,9 +15,9 @@ def to_string(data):
   scale = metrics["scaleTitle"]
   return f'[{update_time}] - {title} : {level} {scale}'
 
-def get_data():
+def get_data(id):
   # api-endpoint
-  URL = "http://192.168.43.100:8083/ZAutomation/api/v1/devices/CounterTriggeringSensor_14"
+  URL = "http://192.168.43.100:8083/ZAutomation/api/v1/devices/"+id
   # defining a params dict for the parameters to be sent to the API
   PARAMS = {}
 
