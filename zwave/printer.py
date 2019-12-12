@@ -12,12 +12,13 @@ class Printer(Thread):
 
   def run(self):
     """Code à exécuter pendant l'exécution du thread."""
-    while(True):
-      client.get_data(self.id)
+    print("Liste des capteurs : ")
+    client.get_devices()
+    while(client.get_data(self.id) == True):
       time.sleep(2)
 
 
 thread_1 = Printer("CounterTriggeringSensor_14")
-thread_2 = Printer("15_CorrectValue_90")
+thread_2 = Printer("15_CorrectValue_95")
 thread_1.start()
 thread_2.start()
