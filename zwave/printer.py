@@ -1,4 +1,5 @@
 from threading import Thread
+import sys
 import time
 
 import client
@@ -17,8 +18,3 @@ class Printer(Thread):
     while(client.get_data(self.id) == True):
       time.sleep(2)
 
-
-thread_1 = Printer("CounterTriggeringSensor_14")
-thread_2 = Printer("15_CorrectValue_95")
-thread_1.start()
-thread_2.start()

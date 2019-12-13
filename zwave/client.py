@@ -3,6 +3,7 @@ import requests
 import time
 import datetime
 
+zwave_url = "http://192.168.43.99:8083/ZAutomation/api/v1/"
 
 def sensor_to_string(data):
   creation_timestamp = datetime.datetime.fromtimestamp(data['creationTime'])
@@ -18,7 +19,7 @@ def sensor_to_string(data):
 
 def get_data(id):
   # api-endpoint
-  URL = "http://192.168.43.100:8083/ZAutomation/api/v1/devices/" + id
+  URL = zwave_url+ "devices/" + id
   # defining a params dict for the parameters to be sent to the API
   PARAMS = {}
   # sending get request and saving the response as response object
@@ -35,7 +36,7 @@ def get_data(id):
 
 def get_devices():
   # api-endpoint
-  URL = "http://192.168.43.100:8083/ZAutomation/api/v1/devices"
+  URL = zwave_url+"devices"
   # defining a params dict for the parameters to be sent to the API
   PARAMS = {}
 
@@ -44,6 +45,5 @@ def get_devices():
   # extracting data in json format
   resp = r.json()
   devices = resp['data']['devices']
-  for d in devices:
-    print(d)
+  return devices
 
