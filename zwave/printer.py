@@ -13,7 +13,6 @@ class Printer(Thread):
 
   def run(self):
     """Code à exécuter pendant l'exécution du thread."""
-    print("Liste des capteurs : ")
     client.get_devices()
     temp = client.get_data(self.id)
     while True:
@@ -29,4 +28,4 @@ class Printer(Thread):
       time.sleep(2)
 
   def send_to_api(self):
-    print("Envoi d'une info à l'API")
+    print("Mouvement détecté sur le capteur " + self.id)
