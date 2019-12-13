@@ -58,13 +58,13 @@ def main():
   parser.add_argument('-d', '--debug', action='store_true')
 
   router_parser = subparsers.add_parser("printer")
-  router_parser.add_argument("action", help="Veuillez entrez l'id d'un capteur.")
+  router_parser.add_argument("action", help="Veuillez entrer l'id d'un capteur.")
 
   router_parser = subparsers.add_parser("reset-sensor")
-  router_parser.add_argument("action", help="Veuillez entrez l'id d'un capteur.")
+  router_parser.add_argument("action", help="Veuillez entrer l'id d'un capteur.")
 
   router_parser = subparsers.add_parser("file")
-  router_parser.add_argument("action", help="Veuillez entrez l'id d'un capteur.")
+  router_parser.add_argument("action", help="Veuillez entrer le nom d'un fichier contentant les ids des capteurs.")
 
   args = parser.parse_args()
 
