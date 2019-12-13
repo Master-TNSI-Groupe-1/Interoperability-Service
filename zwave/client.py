@@ -16,6 +16,10 @@ def sensor_to_string(data):
   scale = metrics["scaleTitle"]
   return f'[{update_time}] - {title} : {level} {scale}'
 
+def get_level_from_data(data):
+  metrics = data['metrics']
+  return metrics["level"]
+
 
 def get_data(id):
   # api-endpoint
@@ -29,7 +33,8 @@ def get_data(id):
     # extracting data in json format
     resp = r.json()
     data = resp['data']
-    print(sensor_to_string(data))
+    # print(sensor_to_string(data))
+    return get_level_from_data(data)
   except requests.exceptions.HTTPError as errh:
     print("Http Error:", errh)
   except requests.exceptions.ConnectionError as errc:
