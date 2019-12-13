@@ -1,9 +1,12 @@
 # importing the requests library
+import datetime
 import requests
 import time
-import datetime
+import sys
 
-ZWAVE_URL = "http://192.168.43.99:8083"
+import mylogger
+
+ZWAVE_URL = "http://192.168.43.9:8083"
 ZAUTOMATION_URL = "/ZAutomation/api/v1/"
 
 def sensor_to_string(data):
@@ -31,17 +34,13 @@ def get_data(id):
     resp = r.json()
     data = resp['data']
     print(sensor_to_string(data))
-  except requests.exceptions.HTTPError as errh:
-    print("Http Error:", errh)
-  except requests.exceptions.ConnectionError as errc:
-    print("Error Connecting:", errc)
-  except requests.exceptions.Timeout as errt:
-    print("Timeout Error:", errt)
-  except requests.exceptions.RequestException as err:
-    print("OOps: Something Else", err)
-
+  except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError, requests.exceptions.Timeout,
+            requests.exceptions.RequestException) as err:
+    mylogger.logger.exception("Error")
+    sys.exit(1)
 
 def get_devices():
+  print("devices")
   # api-endpoint
   URL = ZWAVE_URL + ZAUTOMATION_URL + "devices"
   # defining a params dict for the parameters to be sent to the API
@@ -54,14 +53,10 @@ def get_devices():
     # extracting data in json format
     resp = r.json()
     devices = resp['data']['devices']
-  except requests.exceptions.HTTPError as errh:
-    print("Http Error:", errh)
-  except requests.exceptions.ConnectionError as errc:
-    print("Error Connecting:", errc)
-  except requests.exceptions.Timeout as errt:
-    print("Timeout Error:", errt)
-  except requests.exceptions.RequestException as err:
-    print("OOps: Something Else", err)
+  except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError, requests.exceptions.Timeout,
+            requests.exceptions.RequestException) as err:
+    mylogger.logger.exception("Error")
+    sys.exit(1)
 
   return devices
 
@@ -69,11 +64,7 @@ def reset_sensor(id, metrics, value):
   URL = ZWAVE_URL + "/JS/Run/this.controller.devices.get(%22"+id+"%22).set(%22metrics:"+metrics+"%22,"+value+")"
   try:
     requests.get(url=URL, auth=('admin', 'adminadmin'))
-  except requests.exceptions.HTTPError as errh:
-    print("Http Error:", errh)
-  except requests.exceptions.ConnectionError as errc:
-    print("Error Connecting:", errc)
-  except requests.exceptions.Timeout as errt:
-    print("Timeout Error:", errt)
-  except requests.exceptions.RequestException as err:
-    print("OOps: Something Else", err)
+  except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError, requests.exceptions.Timeout,
+            requests.exceptions.RequestException) as err:
+    mylogger.logger.exception("Error")
+    sys.exit(1)

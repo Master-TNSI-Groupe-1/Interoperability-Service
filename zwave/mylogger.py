@@ -2,19 +2,24 @@ import sys
 
 import logging
 
-LOG_FILENAME = "zwave.log"
-logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
-
+LOG_FILENAME = "ZWAVE.log"
+logger = None
 
 def setup_logger(debug):
+  global logger
   logger = logging.getLogger("ZWAVE")
   logger.setLevel(logging.DEBUG if debug else logging.INFO)
 
   formatter = logging.Formatter("[%(asctime)s] %(levelname)s - %(message)s")
 
-  for handler in [logging.StreamHandler(sys.stdout),
-                  logging.FileHandler("ZWAVE.log")]:
+  if(logger.hasHandlers()):
+      logger.handlers.clear()
+
+  for handler in [logging.FileHandler("ZWAVE.log")]:
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
   return logger
+
+if(logger == None):
+    logger = setup_logger(True)

@@ -4,10 +4,10 @@ import sys
 assert sys.version_info > (3, 5), "Python is dead, long live Python!" \
                                   " (please use Python 3.5+)"
 
-import argparse, logging
+import argparse
 import client, printer
 
-import mylogger as mylog
+import mylogger
 
 def handle_sensor(args):
   devices = client.get_devices()
@@ -17,10 +17,10 @@ def handle_sensor(args):
       device = de
 
   if device == None:
-    logging.debug("Capteur inexistant ou impossible à trouver.")
+    mylogger.logger.info("Capteur inexistant ou impossible à trouver.")
     return False
   else:
-    logging.debug("Capteur trouvé [" + device['id'] + "].")
+    mylogger.logger.info("Capteur trouvé [" + device['id'] + "].")
     return True
 
 def handle_printer(args):
@@ -31,7 +31,6 @@ def handle_reset(args):
   client.reset_sensor(args.id, args.metrics, args.value)
 
 def main():
-  logger = mylog.setup_logger(True)
   parser = argparse.ArgumentParser()
   subparsers = parser.add_subparsers(help="role", dest="role", required=True)
   parser.add_argument('-d', '--debug', action='store_true')
@@ -47,9 +46,10 @@ def main():
 
   args = parser.parse_args()
 
-  logger.debug("Python %s", sys.version.replace('\n', ''))
+  mylogger.logger.debug("Python %s", sys.version.replace('\n', ''))
   function_name = "handle_" + args.role
-  logger.debug("Calling %s()", function_name)
+  mylogger.logger.info("Calling %s()", function_name)
+
   if(handle_sensor(args)):
     globals()[function_name](args)
 
