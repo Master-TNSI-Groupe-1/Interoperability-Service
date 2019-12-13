@@ -22,16 +22,23 @@ def get_data(id):
   URL = zwave_url+ "devices/" + id
   # defining a params dict for the parameters to be sent to the API
   PARAMS = {}
-  # sending get request and saving the response as response object
-  r = requests.get(url=URL, auth=('admin', 'adminadmin'))
-  # extracting data in json format
-  resp = r.json()
-  if resp['code'] == 200:
+  try:
+    # sending get request and saving the response as response object
+    r = requests.get(url=URL, auth=('admin', 'adminadmin'))
+    r.raise_for_status()
+    # extracting data in json format
+    resp = r.json()
     data = resp['data']
     print(sensor_to_string(data))
-    return True
-  else:
-    return False
+  except requests.exceptions.HTTPError as errh:
+    print("Http Error:", errh)
+  except requests.exceptions.ConnectionError as errc:
+    print("Error Connecting:", errc)
+  except requests.exceptions.Timeout as errt:
+    print("Timeout Error:", errt)
+  except requests.exceptions.RequestException as err:
+    print("OOps: Something Else", err)
+
 
 
 def get_devices():
@@ -39,11 +46,21 @@ def get_devices():
   URL = zwave_url+"devices"
   # defining a params dict for the parameters to be sent to the API
   PARAMS = {}
+  devices = []
+  try:
+    # sending get request and saving the response as response object
+    r = requests.get(url=URL, auth=('admin', 'adminadmin'))
+    r.raise_for_status()
+    # extracting data in json format
+    resp = r.json()
+    devices = resp['data']['devices']
+  except requests.exceptions.HTTPError as errh:
+    print("Http Error:", errh)
+  except requests.exceptions.ConnectionError as errc:
+    print("Error Connecting:", errc)
+  except requests.exceptions.Timeout as errt:
+    print("Timeout Error:", errt)
+  except requests.exceptions.RequestException as err:
+    print("OOps: Something Else", err)
 
-  # sending get request and saving the response as response object
-  r = requests.get(url=URL, auth=('admin', 'adminadmin'))
-  # extracting data in json format
-  resp = r.json()
-  devices = resp['data']['devices']
   return devices
-

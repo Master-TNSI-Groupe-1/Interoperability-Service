@@ -15,6 +15,7 @@ class Printer(Thread):
     """Code à exécuter pendant l'exécution du thread."""
     print("Liste des capteurs : ")
     client.get_devices()
-    while(client.get_data(self.id) == True):
+    while(True):
+      client.get_data(self.id)
       time.sleep(2)
 
