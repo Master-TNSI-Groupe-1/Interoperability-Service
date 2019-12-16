@@ -15,22 +15,23 @@ class Printer(Thread):
     self.port = port
 
   def run(self):
-    """Code à exécuter pendant l'exécution du thread."""
-    client.get_devices()
-    temp = client.get_data(self.id)
-    while True:
-      mouvements = client.get_data(self.id)
-      if mouvements < temp:
-        temp = 0
+    try:
+      """Code à exécuter pendant l'exécution du thread."""
+      client.get_devices()
+      temp = client.get_data(self.id)
+      while True:
+        mouvements = client.get_data(self.id)
+        if mouvements < temp:
+          temp = 0
 
-      if mouvements != temp:
-        for i in range(mouvements - temp):
-          self.send_to_api()
+        if mouvements != temp:
+          for i in range(mouvements - temp):
+            self.send_to_api()
 
-      temp = mouvements
-      time.sleep(2)
-
-    print("Exit")
+        temp = mouvements
+        time.sleep(2)
+    except KeyboardInterrupt as err:
+      print("Exit")
 
 
   def send_to_api(self):
