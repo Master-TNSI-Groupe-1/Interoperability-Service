@@ -28,11 +28,8 @@ def handle_sensor(args):
     return True
 
 def handle_printer(args):
-  try:
-    my_sensor_printer = printer.Printer(args.id, args.ip, args.port)
-    my_sensor_printer.start()
-  except Exception as err:
-    print("Exit")
+  my_sensor_printer = printer.Printer(args.id, args.ip, args.port)
+  my_sensor_printer.start()
 
 def handle_reset(args):
   client.reset_sensor(args.id, args.metrics, args.value)
@@ -65,11 +62,8 @@ def handle_file(args):
       else:
         mylogger.logger.info("Capteur trouvé [" + device['id'] + "].")
         print(device['id'])
-        try:
-          my_sensor_printer = printer.Printer(device['id'])
-          my_sensor_printer.start()
-        except Exception as err:
-          print("Exit")
+        my_sensor_printer = printer.Printer(device['id'])
+        my_sensor_printer.start()
 
 def main():
   parser = argparse.ArgumentParser()
@@ -108,4 +102,8 @@ def main():
 
 
 if __name__ == '__main__':
-  main()
+  try:
+    main()
+  except KeyboardInterrupt as err:
+    print('Exit')
+    sys.exit(1)
