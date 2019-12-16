@@ -11,20 +11,20 @@ import client, printer
 import mylogger
 
 def handle_sensor(args):
-  print(args)
   if(args.role == "printer" or args.role == "reset"):
     devices = client.get_devices(args.ip, args.port)
+    device = None
+    for de in devices:
+      if (de['id'] == args.id):
+        device = de
 
-  device = None
-  for de in devices:
-    if (de['id'] == args.id):
-      device = de
-
-  if device == None:
-    mylogger.logger.info("Capteur inexistant ou impossible à trouver.")
-    return False
+    if device == None:
+      mylogger.logger.info("Capteur inexistant ou impossible à trouver.")
+      return False
+    else:
+      mylogger.logger.info("Capteur trouvé [" + device['id'] + "].")
+      return True
   else:
-    mylogger.logger.info("Capteur trouvé [" + device['id'] + "].")
     return True
 
 def handle_printer(args):
@@ -33,6 +33,11 @@ def handle_printer(args):
 
 def handle_reset(args):
   client.reset_sensor(args.id, args.metrics, args.value)
+
+def handle_list(args):
+  devices = client.get_devices(args.ip, args.port)
+  for d in devices:
+   print(d['id'])
 
 
 def handle_file(args):
@@ -51,9 +56,9 @@ def handle_file(args):
         if (de['id'] == linedevice):
           device = de
       if device == None:
-        logging.debug("Capteur [" + linedevice + "] inexistant ou impossible à trouver.")
+        mylogger.logger.info("Capteur [" + linedevice + "] inexistant ou impossible à trouver.")
       else:
-        logging.debug("Capteur trouvé [" + device['id'] + "].")
+        mylogger.logger.info("Capteur trouvé [" + device['id'] + "].")
         print(device['id'])
         my_sensor_printer = printer.Printer(device['id'])
         my_sensor_printer.start()
@@ -75,13 +80,16 @@ def main():
   router_parser.add_argument("value", help="Veuillez entrez une valeur supérieure à 0.")
   router_parser.add_argument("-i","--ip", help="Veuillez entrer l'ip du réseaux", required=False)
   router_parser.add_argument("-p","--port", help="Veuillez entrer le port du réseaux", required=False)
-  router_parser = subparsers.add_parser("reset-sensor")
-  router_parser.add_argument("action", help="Veuillez entrer l'id d'un capteur.")
 
   router_parser = subparsers.add_parser("file")
-  router_parser.add_argument("action", help="Veuillez entrer le nom d'un fichier contentant les ids des capteurs.")
+  router_parser.add_argument("path", help="Veuillez entrer le nom d'un fichier contentant les ids des capteurs.")
+
+  router_parser = subparsers.add_parser("list")
+  router_parser.add_argument("-i","--ip", help="Veuillez entrer l'ip du réseaux", required=False)
+  router_parser.add_argument("-p","--port", help="Veuillez entrer le port du réseaux", required=False)
 
   args = parser.parse_args()
+  print(args)
 
   mylogger.setup_logger(args.debug)
 

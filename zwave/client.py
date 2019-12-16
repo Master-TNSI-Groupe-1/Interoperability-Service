@@ -43,17 +43,8 @@ def get_data(id, ip=None, port=None):
     # extracting data in json format
     resp = r.json()
     data = resp['data']
-    # print(sensor_to_string(data))
-    return get_level_from_data(data)
-  except requests.exceptions.HTTPError as errh:
-    print("Http Error:", errh)
-  except requests.exceptions.ConnectionError as errc:
-    print("Error Connecting:", errc)
-  except requests.exceptions.Timeout as errt:
-    print("Timeout Error:", errt)
-  except requests.exceptions.RequestException as err:
-    print("OOps: Something Else", err)
     print(sensor_to_string(data))
+    return get_level_from_data(data)
   except (Exception) as err:
     mylogger.logger.error(err)
     sys.exit(1)
@@ -64,8 +55,6 @@ def get_devices(ip=None, port=None):
   if port == None:
     port = ZWAVE_PORT
 
-  print(ip)
-  print(port)
   # api-endpoint
   URL = "http://" + ip + ":" + port + "/ZAutomation/api/v1/devices"
   # defining a params dict for the parameters to be sent to the API
