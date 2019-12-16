@@ -60,23 +60,21 @@ def handle_file(args):
     devices = client.get_devices()
     for line in file:
       device = None
-      linedevice = format(line).replace('\n', '').replace('\r', '')
+      filedevice = format(line).split()[0]
+      deviceid = format(line).split()[1]
+      print("DEVICE : " + filedevice)
+      print("DEVICE ID : " + deviceid)
+      # filedevice = format(line).replace('\n', '').replace('\r', '')
       for de in devices:
-        if (de['id'] == linedevice):
+        if (de['id'] == filedevice):
           device = de
       if device == None:
-        mylogger.logger.info("Capteur [" + linedevice + "] inexistant ou impossible à trouver.")
+        mylogger.logger.info("Capteur [" + filedevice + "] inexistant ou impossible à trouver.")
       else:
         mylogger.logger.info("Capteur trouvé [" + device['id'] + "].")
         print(device['id'])
         my_sensor_printer = printer.Printer(device['id'])
         my_sensor_printer.start()
-        try:
-          while 1:
-            time.sleep(.01)
-        except Exception as err:
-          my_sensor_printer.join()
-          print("Exit")
 
 def signal_handler(signal, frame):
   print('\nVous avez quitté le programme !')
