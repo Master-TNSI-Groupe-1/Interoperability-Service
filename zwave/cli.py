@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import signal
 import sys
 assert sys.version_info > (3, 5), "Python is dead, long live Python!" \
                                   " (please use Python 3.5+)"
@@ -77,7 +78,14 @@ def handle_file(args):
           my_sensor_printer.join()
           print("Exit")
 
+  def signal_handler(signal, frame):
+    print('You pressed Ctrl+C!')
+    sys.exit(0)
+
+
+
 def main():
+  signal.signal(signal.SIGINT, signal_handler)
   parser = argparse.ArgumentParser()
   subparsers = parser.add_subparsers(help="role", dest="role", required=True)
   parser.add_argument('-d', '--debug', action='store_true')
