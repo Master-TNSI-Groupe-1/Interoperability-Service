@@ -3,7 +3,7 @@ import sys
 import time
 from threading import Thread
 
-import client
+import client, requests
 
 class Printer(Thread):
   """Thread chargé simplement d'afficher une lettre dans la console."""
@@ -35,4 +35,5 @@ class Printer(Thread):
     print("Exit")
 
   def send_to_api(self):
+    print(requests.get("http://100.24.5.45/get/sensor/pulsation/" + self.id))
     print("Mouvement détecté sur le capteur",self.id)
