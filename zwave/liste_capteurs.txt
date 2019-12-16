@@ -1,2 +1,2 @@
-CounterTriggeringSensor_14 1
-BatteryPolling_7 2
+CounterTriggeringSensor_14 14
+BatteryPolling_7 7

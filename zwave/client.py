@@ -85,6 +85,7 @@ def reset_sensor(id, metrics,ip=None, port=None):
     URL = "http://" + ip + ":" + port + "/JS/Run/this.controller.devices.get(%22"+id+"%22).set(%22metrics:"+metrics+"%22,0)"
   try:
     requests.get(url=URL, auth=('admin', 'adminadmin'))
+    print("Capteur "+ id + "remis à 0")
   except (Exception) as err:
     mylogger.logger.error(err)
     print("Error caught : Please check logs.")
