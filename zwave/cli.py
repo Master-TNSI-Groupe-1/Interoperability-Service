@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import sys
 assert sys.version_info > (3, 5), "Python is dead, long live Python!" \
                                   " (please use Python 3.5+)"
@@ -33,11 +34,35 @@ def handle_printer(args):
 def handle_reset(args):
   client.reset_sensor(args.id, args.metrics, args.value)
 
+
+def handle_file(args):
+  filepath = sys.argv[2]
+  if not os.path.isfile(filepath):
+    print("File path {} does not exist. Exiting...".format(filepath))
+    sys.exit()
+
+  with open(filepath) as file:
+    print("Liste des capteurs :")
+    devices = client.get_devices()
+    for line in file:
+      device = None
+      linedevice = format(line).replace('\n', '').replace('\r', '')
+      for de in devices:
+        if (de['id'] == linedevice):
+          device = de
+      if device == None:
+        logging.debug("Capteur [" + linedevice + "] inexistant ou impossible à trouver.")
+      else:
+        logging.debug("Capteur trouvé [" + device['id'] + "].")
+        print(device['id'])
+        my_sensor_printer = printer.Printer(device['id'])
+        my_sensor_printer.start()
+
+
 def main():
   parser = argparse.ArgumentParser()
   subparsers = parser.add_subparsers(help="role", dest="role", required=True)
   parser.add_argument('-d', '--debug', action='store_true')
-
 
   router_parser = subparsers.add_parser("printer")
   router_parser.add_argument("id", help="Veuillez entrer l'id d'un capteur.")
@@ -50,6 +75,11 @@ def main():
   router_parser.add_argument("value", help="Veuillez entrez une valeur supérieure à 0.")
   router_parser.add_argument("-i","--ip", help="Veuillez entrer l'ip du réseaux", required=False)
   router_parser.add_argument("-p","--port", help="Veuillez entrer le port du réseaux", required=False)
+  router_parser = subparsers.add_parser("reset-sensor")
+  router_parser.add_argument("action", help="Veuillez entrer l'id d'un capteur.")
+
+  router_parser = subparsers.add_parser("file")
+  router_parser.add_argument("action", help="Veuillez entrer le nom d'un fichier contentant les ids des capteurs.")
 
   args = parser.parse_args()
 
@@ -61,6 +91,7 @@ def main():
 
   if(handle_sensor(args)):
     globals()[function_name](args)
+
 
 if __name__ == '__main__':
   main()
