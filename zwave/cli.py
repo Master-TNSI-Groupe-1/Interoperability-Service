@@ -36,8 +36,10 @@ def handle_reset(args):
 
 def handle_list(args):
   devices = client.get_devices(args.ip, args.port)
+  print("Devices ID : ")
   for d in devices:
    print(d['id'])
+  print("   ")
 
 
 def handle_file(args):
@@ -89,7 +91,6 @@ def main():
   router_parser.add_argument("-p","--port", help="Veuillez entrer le port du réseaux", required=False)
 
   args = parser.parse_args()
-  print(args)
 
   mylogger.setup_logger(args.debug)
 
