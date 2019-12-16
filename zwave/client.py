@@ -6,8 +6,8 @@ import sys
 
 import mylogger
 
-ZWAVE_URL = "http://192.168.43.99:8083"
-ZWAVE_IP = "192.168.43.99"
+ZWAVE_URL = "http://localhost:8083"
+ZWAVE_IP = "localhost"
 ZWAVE_PORT = "8083"
 ZAUTOMATION_URL = "/ZAutomation/api/v1/"
 

@@ -8,7 +8,7 @@ import client
 class Printer(Thread):
   """Thread chargé simplement d'afficher une lettre dans la console."""
 
-  def __init__(self, name, id, ip="192.168.43.99", port="8083"):
+  def __init__(self, name, id, ip="localhost", port="8083"):
     Thread.__init__(self)
     self.name = name
     self.id = id
