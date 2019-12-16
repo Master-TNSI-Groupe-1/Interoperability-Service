@@ -30,6 +30,12 @@ def handle_sensor(args):
 def handle_printer(args):
   my_sensor_printer = printer.Printer(args.id, args.ip, args.port)
   my_sensor_printer.start()
+  try:
+    while 1:
+      time.sleep(.01)
+  except Exception as err:
+    my_sensor_printer.join()
+    print("Exit")
 
 def handle_reset(args):
   client.reset_sensor(args.id, args.metrics, args.value)
@@ -64,6 +70,12 @@ def handle_file(args):
         print(device['id'])
         my_sensor_printer = printer.Printer(device['id'])
         my_sensor_printer.start()
+        try:
+          while 1:
+            time.sleep(.01)
+        except Exception as err:
+          my_sensor_printer.join()
+          print("Exit")
 
 def main():
   parser = argparse.ArgumentParser()
@@ -104,9 +116,6 @@ def main():
 if __name__ == '__main__':
   try:
     main()
-  except KeyboardInterrupt:
-    print('Interrupted')
-    try:
-      sys.exit(0)
-    except SystemExit:
-      os._exit(0)
+  except KeyboardInterrupt as err:
+    print('Exit')
+    sys.exit(1)
