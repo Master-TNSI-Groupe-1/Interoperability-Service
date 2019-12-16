@@ -26,11 +26,13 @@ class Printer(Thread):
 
       if mouvements != temp:
         for i in range(mouvements - temp):
-          self.send_to_api()
+          if(self.id != 0):
+            self.send_to_api()
 
       temp = mouvements
       time.sleep(2)
 
     print("Exit")
+
   def send_to_api(self):
-    print("Mouvement détecté sur le capteur " + self.id)
+    print("Mouvement détecté sur le capteur",self.id)

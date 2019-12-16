@@ -29,7 +29,7 @@ def handle_sensor(args):
     return True
 
 def handle_printer(args):
-  my_sensor_printer = printer.Printer(args.id, args.ip, args.port)
+  my_sensor_printer = printer.Printer(args.id, 0, args.ip, args.port)
   my_sensor_printer.start()
   try:
     while 1:
