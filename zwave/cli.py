@@ -71,9 +71,9 @@ def handle_file(args):
       if device == None:
         mylogger.logger.info("Capteur [" + filedevice + "] inexistant ou impossible à trouver.")
       else:
-        mylogger.logger.info("Capteur trouvé [" + device['id'] + "].")
-        print(device['id'])
-        my_sensor_printer = printer.Printer(device['id'])
+        mylogger.logger.info("Capteur trouvé [" + filedevice + "].")
+        print(filedevice)
+        my_sensor_printer = printer.Printer(filedevice, deviceid)
         my_sensor_printer.start()
 
 def signal_handler(signal, frame):
