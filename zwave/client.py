@@ -6,7 +6,9 @@ import sys
 
 import mylogger
 
-ZWAVE_URL = "http://192.168.43.9:8083"
+ZWAVE_URL = "http://192.168.43.99:8083"
+ZWAVE_IP = "192.168.43.99"
+ZWAVE_PORT = "8083"
 ZAUTOMATION_URL = "/ZAutomation/api/v1/"
 
 def sensor_to_string(data):
@@ -21,9 +23,13 @@ def sensor_to_string(data):
   return f'[{update_time}] - {title} : {level} {scale}'
 
 
-def get_data(id):
+def get_data(id, ip=None, port=None):
+  if ip == None:
+    ip = ZWAVE_IP
+  if port == None:
+    port = ZWAVE_PORT
   # api-endpoint
-  URL = ZWAVE_URL + ZAUTOMATION_URL + "devices/" + id
+  URL = "http://" + ip + ":" + port + "/ZAutomation/api/v1/devices/" + id
   # defining a params dict for the parameters to be sent to the API
   PARAMS = {}
   try:
@@ -34,15 +40,20 @@ def get_data(id):
     resp = r.json()
     data = resp['data']
     print(sensor_to_string(data))
-  except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError, requests.exceptions.Timeout,
-            requests.exceptions.RequestException) as err:
-    mylogger.logger.exception("Error")
+  except (Exception) as err:
+    mylogger.logger.error(err)
     sys.exit(1)
 
-def get_devices():
-  print("devices")
+def get_devices(ip=None, port=None):
+  if ip == None:
+    ip = ZWAVE_IP
+  if port == None:
+    port = ZWAVE_PORT
+
+  print(ip)
+  print(port)
   # api-endpoint
-  URL = ZWAVE_URL + ZAUTOMATION_URL + "devices"
+  URL = "http://" + ip + ":" + port + "/ZAutomation/api/v1/devices"
   # defining a params dict for the parameters to be sent to the API
   PARAMS = {}
   devices = []
@@ -53,9 +64,8 @@ def get_devices():
     # extracting data in json format
     resp = r.json()
     devices = resp['data']['devices']
-  except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError, requests.exceptions.Timeout,
-            requests.exceptions.RequestException) as err:
-    mylogger.logger.exception("Error")
+  except (Exception) as err:
+    mylogger.logger.error(err)
     sys.exit(1)
 
   return devices
@@ -64,7 +74,6 @@ def reset_sensor(id, metrics, value):
   URL = ZWAVE_URL + "/JS/Run/this.controller.devices.get(%22"+id+"%22).set(%22metrics:"+metrics+"%22,"+value+")"
   try:
     requests.get(url=URL, auth=('admin', 'adminadmin'))
-  except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError, requests.exceptions.Timeout,
-            requests.exceptions.RequestException) as err:
-    mylogger.logger.exception("Error")
+  except (Exception) as err:
+    mylogger.logger.error(err)
     sys.exit(1)

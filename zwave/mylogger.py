@@ -22,4 +22,4 @@ def setup_logger(debug):
   return logger
 
 if(logger == None):
-    logger = setup_logger(True)
+    logger = setup_logger(False)
