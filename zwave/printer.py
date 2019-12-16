@@ -32,7 +32,5 @@ class Printer(Thread):
       time.sleep(2)
 
     print("Exit")
-
-
   def send_to_api(self):
     print("Mouvement détecté sur le capteur " + self.id)

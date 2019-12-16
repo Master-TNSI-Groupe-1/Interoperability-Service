@@ -77,7 +77,7 @@ def handle_file(args):
         my_sensor_printer.start()
 
 def signal_handler(signal, frame):
-  print('\nVous avez quitté le programme !')
+  print('\nVous avez quitté le programme ! ')
   try:
     sys.exit(0)
   except SystemExit:
@@ -97,7 +97,6 @@ def main():
   router_parser = subparsers.add_parser("reset")
   router_parser.add_argument("id", help="Veuillez entrer l'id d'un capteur.")
   router_parser.add_argument("metrics", help="Veuillez entrer la mesure à réinitialiser")
-  router_parser.add_argument("value", help="Veuillez entrez une valeur supérieure à 0.")
   router_parser.add_argument("-i","--ip", help="Veuillez entrer l'ip du réseaux", required=False)
   router_parser.add_argument("-p","--port", help="Veuillez entrer le port du réseaux", required=False)
 
