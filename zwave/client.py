@@ -47,6 +47,7 @@ def get_data(id, ip=None, port=None):
     return get_level_from_data(data)
   except (Exception) as err:
     mylogger.logger.error(err)
+    print("Error handled : Please check logs.")
     sys.exit(1)
 
 def get_devices(ip=None, port=None):
@@ -69,6 +70,7 @@ def get_devices(ip=None, port=None):
     devices = resp['data']['devices']
   except (Exception) as err:
     mylogger.logger.error(err)
+    print("Error handled : Please check logs.")
     sys.exit(1)
 
   return devices
@@ -79,4 +81,5 @@ def reset_sensor(id, metrics, value):
     requests.get(url=URL, auth=('admin', 'adminadmin'))
   except (Exception) as err:
     mylogger.logger.error(err)
+    print("Error handled : Please check logs.")
     sys.exit(1)
