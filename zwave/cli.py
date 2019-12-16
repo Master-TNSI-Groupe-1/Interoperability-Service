@@ -104,6 +104,9 @@ def main():
 if __name__ == '__main__':
   try:
     main()
-  except KeyboardInterrupt as err:
-    print('Exit')
-    sys.exit(1)
+  except KeyboardInterrupt:
+    print('Interrupted')
+    try:
+      sys.exit(0)
+    except SystemExit:
+      os._exit(0)
