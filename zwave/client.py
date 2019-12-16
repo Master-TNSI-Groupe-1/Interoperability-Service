@@ -75,8 +75,14 @@ def get_devices(ip=None, port=None):
 
   return devices
 
-def reset_sensor(id, metrics, value):
-  URL = ZWAVE_URL + "/JS/Run/this.controller.devices.get(%22"+id+"%22).set(%22metrics:"+metrics+"%22,"+value+")"
+def reset_sensor(id, metrics,ip=None, port=None):
+  if ip == None:
+    ip = ZWAVE_IP
+  if port == None:
+    port = ZWAVE_PORT
+
+    # api-endpoint
+    URL = "http://" + ip + ":" + port + "/JS/Run/this.controller.devices.get(%22"+id+"%22).set(%22metrics:"+metrics+"%22,0)"
   try:
     requests.get(url=URL, auth=('admin', 'adminadmin'))
   except (Exception) as err:

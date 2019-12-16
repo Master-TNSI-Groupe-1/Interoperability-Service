@@ -39,7 +39,7 @@ def handle_printer(args):
     print("Exit")
 
 def handle_reset(args):
-  client.reset_sensor(args.id, args.metrics, args.value)
+  client.reset_sensor(args.id, args.metrics, args.ip, args.port)
 
 def handle_list(args):
   devices = client.get_devices(args.ip, args.port)
