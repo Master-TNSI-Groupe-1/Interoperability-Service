@@ -20,10 +20,10 @@ def handle_sensor(args):
         device = de
 
     if device == None:
-      mylogger.logger.info("Capteur inexistant ou impossible à trouver.")
+      mylogger.logger.debug("Capteur inexistant ou impossible à trouver.")
       return False
     else:
-      mylogger.logger.info("Capteur trouvé [" + device['id'] + "].")
+      mylogger.logger.debug("Capteur trouvé [" + device['id'] + "].")
       return True
   else:
     return True
@@ -62,16 +62,16 @@ def handle_file(args):
       device = None
       filedevice = format(line).split()[0]
       deviceid = format(line).split()[1]
-      print("DEVICE : " + filedevice)
-      print("DEVICE ID : " + deviceid)
+      # print("DEVICE : " + filedevice)
+      # print("DEVICE ID : " + deviceid)
       # filedevice = format(line).replace('\n', '').replace('\r', '')
       for de in devices:
         if (de['id'] == filedevice):
           device = de
       if device == None:
-        mylogger.logger.info("Capteur [" + filedevice + "] inexistant ou impossible à trouver.")
+        mylogger.logger.debug("Capteur [" + filedevice + "] inexistant ou impossible à trouver.")
       else:
-        mylogger.logger.info("Capteur trouvé [" + filedevice + "].")
+        mylogger.logger.debug("Capteur trouvé [" + filedevice + "].")
         print(filedevice)
         my_sensor_printer = printer.Printer(filedevice, deviceid)
         my_sensor_printer.start()
