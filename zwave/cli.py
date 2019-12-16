@@ -79,7 +79,7 @@ def handle_file(args):
           print("Exit")
 
 def signal_handler(signal, frame):
-  print('You pressed Ctrl+C!')
+  print('\nYou pressed Ctrl+C!')
   try:
     sys.exit(0)
   except SystemExit:
