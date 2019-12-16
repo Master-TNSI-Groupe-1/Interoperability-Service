@@ -17,10 +17,10 @@ class Printer(Thread):
 
   def run(self):
     """Code à exécuter pendant l'exécution du thread."""
-    client.get_devices()
-    temp = client.get_data(self.name)
+    client.get_devices(self.ip, self.port)
+    temp = client.get_data(self.name, self.ip, self.port)
     while True:
-      mouvements = client.get_data(self.name)
+      mouvements = client.get_data(self.name, self.ip, self.port)
       if mouvements < temp:
         temp = 0
 

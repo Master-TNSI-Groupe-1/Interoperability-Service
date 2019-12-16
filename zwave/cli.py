@@ -50,14 +50,14 @@ def handle_list(args):
 
 
 def handle_file(args):
-  filepath = sys.argv[2]
+  filepath = args.path
   if not os.path.isfile(filepath):
     print("File path {} does not exist. Exiting...".format(filepath))
     sys.exit()
 
   with open(filepath) as file:
-    print("Liste des capteurs :")
-    devices = client.get_devices()
+    # print("Liste des capteurs :")
+    devices = client.get_devices(args.ip, args.port)
     for line in file:
       device = None
       filedevice = format(line).split()[0]
@@ -68,12 +68,12 @@ def handle_file(args):
       for de in devices:
         if (de['id'] == filedevice):
           device = de
+
       if device == None:
         mylogger.logger.debug("Capteur [" + filedevice + "] inexistant ou impossible à trouver.")
       else:
         mylogger.logger.debug("Capteur trouvé [" + filedevice + "].")
-        print(filedevice)
-        my_sensor_printer = printer.Printer(filedevice, deviceid)
+        my_sensor_printer = printer.Printer(filedevice, deviceid, args.ip, args.port)
         my_sensor_printer.start()
 
 def signal_handler(signal, frame):
@@ -102,6 +102,8 @@ def main():
 
   router_parser = subparsers.add_parser("file")
   router_parser.add_argument("path", help="Veuillez entrer le nom d'un fichier contentant les ids des capteurs.")
+  router_parser.add_argument("-i", "--ip", help="Veuillez entrer l'ip du réseaux", required=False)
+  router_parser.add_argument("-p", "--port", help="Veuillez entrer le port du réseaux", required=False)
 
   router_parser = subparsers.add_parser("list")
   router_parser.add_argument("-i","--ip", help="Veuillez entrer l'ip du réseaux", required=False)
