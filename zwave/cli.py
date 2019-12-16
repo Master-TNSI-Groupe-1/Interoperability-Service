@@ -80,7 +80,10 @@ def handle_file(args):
 
 def signal_handler(signal, frame):
   print('You pressed Ctrl+C!')
-  sys.exit(0)
+  try:
+    sys.exit(0)
+  except SystemExit:
+    os._exit(0)
 
 def main():
   signal.signal(signal.SIGINT, signal_handler)
