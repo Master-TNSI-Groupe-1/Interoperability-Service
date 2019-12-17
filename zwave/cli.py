@@ -12,6 +12,7 @@ import client, printer
 import mylogger
 
 def handle_sensor(args):
+  mylogger.logger.debug("In Handle_Sensor")
   if(args.role == "printer" or args.role == "reset"):
     devices = client.get_devices(args.ip, args.port)
     device = None
@@ -29,6 +30,7 @@ def handle_sensor(args):
     return True
 
 def handle_printer(args):
+  mylogger.logger.debug("In Handle_Printer")
   my_sensor_printer = printer.Printer(args.id, 0, args.ip, args.port)
   my_sensor_printer.start()
   try:
@@ -39,9 +41,11 @@ def handle_printer(args):
     print("Exit")
 
 def handle_reset(args):
+  mylogger.logger.debug("In Handle_Reset")
   client.reset_sensor(args.id, args.metrics, args.ip, args.port)
 
 def handle_list(args):
+  mylogger.logger.debug("In Handle_List")
   devices = client.get_devices(args.ip, args.port)
   print("Devices ID : ")
   for d in devices:
@@ -50,6 +54,7 @@ def handle_list(args):
 
 
 def handle_file(args):
+  mylogger.logger.debug("In Handle_File")
   filepath = args.path
   if not os.path.isfile(filepath):
     print("File path {} does not exist. Exiting...".format(filepath))
@@ -70,7 +75,7 @@ def handle_file(args):
           device = de
 
       if device == None:
-        mylogger.logger.debug("Capteur [" + filedevice + "] inexistant ou impossible à trouver.")
+        mylogger.logger.error("Capteur [" + filedevice + "] inexistant ou impossible à trouver.")
       else:
         mylogger.logger.debug("Capteur trouvé [" + filedevice + "].")
         my_sensor_printer = printer.Printer(filedevice, deviceid, args.ip, args.port)

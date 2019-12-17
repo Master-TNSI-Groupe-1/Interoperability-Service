@@ -28,6 +28,7 @@ def get_level_from_data(data):
 
 
 def get_data(id, ip=None, port=None):
+  mylogger.logger.debug("In Get_Data")
   if ip == None:
     ip = ZWAVE_IP
   if port == None:
@@ -43,6 +44,7 @@ def get_data(id, ip=None, port=None):
     # extracting data in json format
     resp = r.json()
     data = resp['data']
+    mylogger.logger.debug("Data for device "+ id +" : "+ str(data))
     print(sensor_to_string(data))
     return get_level_from_data(data)
   except (Exception) as err:
@@ -51,6 +53,7 @@ def get_data(id, ip=None, port=None):
     sys.exit(1)
 
 def get_devices(ip=None, port=None):
+  mylogger.logger.debug("In Get_Devices")
   if ip == None:
     ip = ZWAVE_IP
   if port == None:
@@ -68,6 +71,7 @@ def get_devices(ip=None, port=None):
     # extracting data in json format
     resp = r.json()
     devices = resp['data']['devices']
+    mylogger.logger.debug("Devices : "+ str(devices))
   except (Exception) as err:
     mylogger.logger.error(err)
     print("Error caught : Please check logs.")
@@ -76,6 +80,7 @@ def get_devices(ip=None, port=None):
   return devices
 
 def reset_sensor(id, metrics,ip=None, port=None):
+  mylogger.logger.debug("In Reset_Sensor")
   if ip == None:
     ip = ZWAVE_IP
   if port == None:
@@ -85,6 +90,7 @@ def reset_sensor(id, metrics,ip=None, port=None):
     URL = "http://" + ip + ":" + port + "/JS/Run/this.controller.devices.get(%22"+id+"%22).set(%22metrics:"+metrics+"%22,0)"
   try:
     requests.get(url=URL, auth=('admin', 'adminadmin'))
+    mylogger.logger.debug("Capteur "+ id + " remis à 0")
     print("Capteur "+ id + " remis à 0")
   except (Exception) as err:
     mylogger.logger.error(err)

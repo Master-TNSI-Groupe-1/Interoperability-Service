@@ -3,6 +3,8 @@ import sys
 import time
 from threading import Thread
 
+import client
+import mylogger
 import client, requests
 
 class Printer(Thread):
@@ -21,7 +23,11 @@ class Printer(Thread):
     temp = client.get_data(self.name, self.ip, self.port)
     while True:
       mouvements = client.get_data(self.name, self.ip, self.port)
+      mylogger.logger.debug("Mouvements : "+ str(mouvements))
+      mylogger.logger.debug("Temp : "+str(temp))
+
       if mouvements < temp:
+        mylogger.logger.debug("Temp reset (=0)")
         temp = 0
 
       if mouvements != temp:
@@ -35,5 +41,6 @@ class Printer(Thread):
     print("Exit")
 
   def send_to_api(self):
+    mylogger.logger.debug("In SendToApi")
     print(requests.get("http://100.24.5.45/get/sensor/pulsation/" + self.id))
     print("Mouvement détecté sur le capteur",self.id)

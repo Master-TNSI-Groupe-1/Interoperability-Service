@@ -15,7 +15,7 @@ def setup_logger(debug):
   if(logger.hasHandlers()):
       logger.handlers.clear()
 
-  for handler in [logging.FileHandler("ZWAVE.log")]:
+  for handler in [logging.FileHandler("ZWAVE.log"), logging.StreamHandler(sys.stdout)]:
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
