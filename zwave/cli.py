@@ -93,6 +93,7 @@ def main():
   parser = argparse.ArgumentParser()
   subparsers = parser.add_subparsers(help="role", dest="role", required=True)
   parser.add_argument('-d', '--debug', action='store_true')
+  parser.add_argument('-a', '--api')
 
   router_parser = subparsers.add_parser("printer")
   router_parser.add_argument("id", help="Veuillez entrer l'id d'un capteur.")
@@ -115,7 +116,7 @@ def main():
   router_parser.add_argument("-p","--port", help="Veuillez entrer le port du réseaux", required=False)
 
   args = parser.parse_args()
-
+  mylogger.logger.debug("Args : " + str(args))
   mylogger.setup_logger(args.debug)
 
   mylogger.logger.debug("Python %s", sys.version.replace('\n', ''))

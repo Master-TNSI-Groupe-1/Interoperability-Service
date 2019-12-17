@@ -10,12 +10,13 @@ import client, requests
 class Printer(Thread):
   """Thread chargé simplement d'afficher une lettre dans la console."""
 
-  def __init__(self, name, id, ip="localhost", port="8083"):
+  def __init__(self, name, id, ip="localhost", port="8083", api="3.87.54.32"):
     Thread.__init__(self)
     self.name = name
     self.id = id
     self.ip = ip
     self.port = port
+    self.api = api
 
   def run(self):
     """Code à exécuter pendant l'exécution du thread."""
@@ -42,5 +43,15 @@ class Printer(Thread):
 
   def send_to_api(self):
     mylogger.logger.debug("In SendToApi")
-    print(requests.get("http://100.24.5.45/get/sensor/pulsation/" + self.id))
-    print("Mouvement détecté sur le capteur",self.id)
+    try:
+      if(self.api != ""):
+        print(requests.get("http://"+self.api+"/get/sensor/pulsation/" + self.id))
+      else:
+        print("Pas d'api définie")
+
+      print("Mouvement détecté sur le capteur",self.id)
+      mylogger.logger.debug("Mouvement détecté sur le capteur",self.id)
+    except (Exception) as err:
+      mylogger.logger.error(err)
+      print("Error caught : Please check logs.")
+      sys.exit(1)
