@@ -32,7 +32,7 @@ Exemple : `$ python cli.py list`
 ### Options 
 
 `-d --debug` 		: Place le niveau d'affichage au niveau `DEBUG`
-`-a --api`		: Configure l'ip cible de l'API de compteurs 
+`-a --api`		: Configure l'ip cible de l'API de compteurs   
 `-i --ip`		: Configure l'ip cible de l'API ZWave  
 `-p --port`		: Configure le port cible de l'API Zwave  
 
