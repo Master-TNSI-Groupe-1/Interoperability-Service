@@ -57,10 +57,10 @@ def handle_file(args):
   filepath = args.path
   if not os.path.isfile(filepath):
     print("File path {} does not exist. Exiting...".format(filepath))
+    mylogger.logger.debug("File path {} does not exist. Exiting...".format(filepath))
     sys.exit()
 
   with open(filepath) as file:
-    # print("Liste des capteurs :")
     devices = client.get_devices(args.ip, args.port)
     for line in file:
       device = None
@@ -159,5 +159,5 @@ if __name__ == '__main__':
   try:
     main()
   except KeyboardInterrupt as err:
-    print('Exit')
+    mylogger.logger.debug('Exit')
     sys.exit(1)

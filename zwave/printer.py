@@ -39,19 +39,21 @@ class Printer(Thread):
       temp = mouvements
       time.sleep(2)
 
+    mylogger.logger.debug("Exit")
     print("Exit")
 
   def send_to_api(self):
     mylogger.logger.debug("In SendToApi")
     try:
       if(self.api != ""):
-        print(requests.get("http://"+self.api+"/get/sensor/pulsation/" + self.id))
+        mylogger.logger.debug(requests.get("http://"+self.api+"/get/sensor/pulsation/" + self.id))
       else:
-        print("Pas d'api définie")
+        mylogger.logger.debug("Pas d'api définie")
+        raise Exception
 
       print("Mouvement détecté sur le capteur",self.id)
       mylogger.logger.debug("Mouvement détecté sur le capteur",self.id)
     except (Exception) as err:
       mylogger.logger.error(err)
-      print("Error caught : Please check logs.")
+      mylogger.logger.debug("Error caught : Please check logs.")
       sys.exit(1)
