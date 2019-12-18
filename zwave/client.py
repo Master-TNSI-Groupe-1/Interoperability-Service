@@ -47,7 +47,7 @@ def get_data(id, ip=None, port=None):
     resp = r.json()
     data = resp['data']
     mylogger.logger.debug("Data for device "+ id +" : "+ str(data))
-    print(sensor_to_string(data))
+    #print(sensor_to_string(data))
     return get_level_from_data(data)
   except (Exception) as err:
     mylogger.logger.error(err)
