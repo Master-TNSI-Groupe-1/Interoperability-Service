@@ -1,4 +1,5 @@
 # importing the requests library
+import configparser
 import datetime
 import requests
 import time
@@ -10,6 +11,7 @@ ZWAVE_URL = "http://localhost:8083"
 ZWAVE_IP = "localhost"
 ZWAVE_PORT = "8083"
 ZAUTOMATION_URL = "/ZAutomation/api/v1/"
+LOGIN = None
 
 def sensor_to_string(data):
   creation_timestamp = datetime.datetime.fromtimestamp(data['creationTime'])
@@ -39,7 +41,7 @@ def get_data(id, ip=None, port=None):
   PARAMS = {}
   try:
     # sending get request and saving the response as response object
-    r = requests.get(url=URL, auth=('admin', 'adminadmin'))
+    r = requests.get(url=URL, auth=(LOGING[0], LOGING[1]))
     r.raise_for_status()
     # extracting data in json format
     resp = r.json()
@@ -66,7 +68,7 @@ def get_devices(ip=None, port=None):
   devices = []
   try:
     # sending get request and saving the response as response object
-    r = requests.get(url=URL, auth=('admin', 'adminadmin'))
+    r = requests.get(url=URL, auth=(LOGING[0], LOGING[1]))
     r.raise_for_status()
     # extracting data in json format
     resp = r.json()
@@ -89,10 +91,20 @@ def reset_sensor(id, metrics,ip=None, port=None):
     # api-endpoint
     URL = "http://" + ip + ":" + port + "/JS/Run/this.controller.devices.get(%22"+id+"%22).set(%22metrics:"+metrics+"%22,0)"
   try:
-    requests.get(url=URL, auth=('admin', 'adminadmin'))
+    requests.get(url=URL, auth=(LOGING[0], LOGING[1]))
     mylogger.logger.debug("Capteur "+ id + " remis à 0")
     print("Capteur "+ id + " remis à 0")
   except (Exception) as err:
     mylogger.logger.error(err)
     print("Error caught : Please check logs.")
     sys.exit(1)
+
+def get_login():
+  config = configparser.ConfigParser()
+  config.read("properties.ini")
+  user = config.get('LOGIN', 'User')
+  passwd = config.get('LOGIN', 'Passwd')
+  return user,passwd
+
+if(LOGIN == None):
+  LOGING = get_login()
