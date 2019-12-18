@@ -4,9 +4,18 @@
 Pour la gestion des capteurs, une interface en ligne de commande a été implémentée. Cette interface permet la création de *printers*. Les *printers* permettent d'afficher ou d'envoyer les données d'un capteur à une API Rest. 
 
 ## Command line / cli.py
-Pour l'exécution du programme, il faut préciser l'action voulue en paramètre, quatre actions sont actuellement disponibles : 
+
+`$ python3 cli.py`
+
+Cette commande lance le service de récupération des données des capteurs pour un Raspberry particulier. 
+Les données de connection (IP, port, IP API, Liste de capteurs, etc.) sont définis dans le fichier `properties.ini`
+Les arguments surchargent le fichier `properties.ini`.
+
+Pour l'exécution du programme, nous pouvons préciser l'action voulue en paramètre. Quatre actions sont actuellement disponibles. 
 
 ### Arguments
+
+#### Positionnels  
 
  - **printer**, suivi de l'id d'un capteur lancera le programme et surveillera l'activité du capteur correspondant à l'id donné. Printer est une méthode de visualisation : un printer créé via cette méthode n'enverra aucune donnée.  
 `$ python3 cli.py printer id [ip] [port]`  
@@ -29,17 +38,33 @@ Exemple : `$ python3 cli.py file ma_liste_capteurs.txt`
 `$ python [debug] cli.py list [ip] [port]`  
 Exemple : `$ python cli.py list` 
 
-### Options 
+#### Optionnels
 
 `-d --debug` 		: Place le niveau d'affichage au niveau `DEBUG`
 `-a --api`		: Configure l'ip cible de l'API de compteurs   
 `-i --ip`		: Configure l'ip cible de l'API ZWave  
 `-p --port`		: Configure le port cible de l'API Zwave  
 
-### Fichier de configuration 
+## Fichier de configuration / properties.ini
 
-Associer, ligne par ligne, l'id d'un capteur ZWave et l'id d'un capteur en base de donnée.  
-Exemple : 
+Un fichier de config `properties.ini`est mis en place pour définir les options de connection. Le fichier est de la forme : 
+
+```ini
+[CONFIG]
+IP = 192.168.XX.XX
+Port = 8080
+File = listeCapteurs
+Api = 192.168.XX.XX
+
+[LOGIN]
+User = root
+Passwd = admin
+```  
+
+## Liste des capteurs / listSensor
+
+Associer, ligne par ligne, l'id d'un capteur ZWave et l'id d'un capteur en base de donnée :  
+
 ```vim
 CounterTriggeringSensor_14	18
 LightSensitiveSensor_8 		2
