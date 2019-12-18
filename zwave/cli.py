@@ -30,7 +30,7 @@ def handle_sensor(args):
 
 def handle_printer(args):
   mylogger.logger.debug("In Handle_Printer")
-  my_sensor_printer = printer.Printer(args.id, 0, args.ip, args.port)
+  my_sensor_printer = printer.Printer(args.id, 0, args.ip, args.port, args.api)
   my_sensor_printer.start()
   try:
     while 1:
@@ -77,7 +77,7 @@ def handle_file(args):
         mylogger.logger.error("Capteur [" + filedevice + "] inexistant ou impossible à trouver.")
       else:
         mylogger.logger.debug("Capteur trouvé [" + filedevice + "].")
-        my_sensor_printer = printer.Printer(filedevice, deviceid, args.ip, args.port)
+        my_sensor_printer = printer.Printer(filedevice, deviceid, args.ip, args.port, args.api)
         my_sensor_printer.start()
 
 def signal_handler(signal, frame):
@@ -151,6 +151,9 @@ def setup_config(args):
       args.port = config.get('CONFIG', 'Port')
     if (args.path == None):
       args.path = config.get('CONFIG', 'File')
+
+    if(args.api == None):
+      args.api = config.get('CONFIG', 'Api')
 
   return args
 

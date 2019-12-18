@@ -36,6 +36,10 @@ class Printer(Thread):
         for i in range(mouvements - temp):
           if(self.id != 0):
             self.send_to_api()
+          else:
+            print("[NoSend] Mouvement détecté sur le capteur", self.name)
+            print("En attente de mouvement...")
+
 
       temp = mouvements
       time.sleep(2)
@@ -45,6 +49,7 @@ class Printer(Thread):
 
   def send_to_api(self):
     mylogger.logger.debug("In SendToApi")
+    print(self.api)
     try:
       if(self.api != ""):
         mylogger.logger.debug(requests.get("http://"+self.api+"/get/sensor/pulsation/" + self.id))
@@ -52,7 +57,7 @@ class Printer(Thread):
         mylogger.logger.debug("Pas d'api définie")
         raise Exception
 
-      print("Mouvement détecté sur le capteur",self.id)
+      print("[Send] Mouvement détecté sur le capteur",self.id)
       print("En attente de mouvement...")
       mylogger.logger.debug("Mouvement détecté sur le capteur",self.id)
     except (Exception) as err:
