@@ -49,7 +49,6 @@ class Printer(Thread):
 
   def send_to_api(self):
     mylogger.logger.debug("In SendToApi")
-    print(self.api)
     try:
       if(self.api != ""):
         mylogger.logger.debug(requests.get("http://"+self.api+"/get/sensor/pulsation/" + self.id))

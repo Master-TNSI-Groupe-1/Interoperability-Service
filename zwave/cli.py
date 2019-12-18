@@ -115,9 +115,7 @@ def main():
   router_parser.add_argument("-p","--port", help="Veuillez entrer le port du réseaux", required=False)
 
   args = parser.parse_args()
-  print(args)
   setup_config(args)
-  print(args)
   mylogger.setup_logger(args.debug)
   args = setup_config(args)
 
@@ -152,7 +150,7 @@ def setup_config(args):
     if (args.path == None):
       args.path = config.get('CONFIG', 'File')
 
-    if(args.api == None):
+  if(args.api == None):
       args.api = config.get('CONFIG', 'Api')
 
   return args
