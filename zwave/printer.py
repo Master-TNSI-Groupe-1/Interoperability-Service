@@ -22,6 +22,7 @@ class Printer(Thread):
     """Code à exécuter pendant l'exécution du thread."""
     client.get_devices(self.ip, self.port)
     temp = client.get_data(self.name, self.ip, self.port)
+    print("En attente de mouvement...")
     while True:
       mouvements = client.get_data(self.name, self.ip, self.port)
       mylogger.logger.debug("Mouvements : "+ str(mouvements))
@@ -52,6 +53,7 @@ class Printer(Thread):
         raise Exception
 
       print("Mouvement détecté sur le capteur",self.id)
+      print("En attente de mouvement...")
       mylogger.logger.debug("Mouvement détecté sur le capteur",self.id)
     except (Exception) as err:
       mylogger.logger.error(err)
