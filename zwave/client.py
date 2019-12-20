@@ -101,8 +101,11 @@ def reset_sensor(id, metrics,ip=None, port=None):
     sys.exit(1)
 
 def get_login():
-  filepath = os.getcwd()+os.path.sep+"properties.ini"
-  print(filepath)
+  if(os.getcwd() == "/"):
+    filepath = "/var/python/Interoperability-Service/properties.ini"
+  else :
+    filepath = os.getcwd()+os.path.sep+"properties.ini"
+
 
   if not os.path.isfile(filepath):
     print("[Get Login] File path {} does not exist. Exiting...".format(filepath))
