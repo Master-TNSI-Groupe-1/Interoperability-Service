@@ -129,7 +129,11 @@ def main():
     globals()[function_name](args)
 
 def setup_config(args):
-  filepath = os.path.realpath("properties.ini")
+  if (os.getcwd() == "/"):
+    filepath = "/var/python/Interoperability-Service/zwave/properties.ini"
+  else:
+    filepath = os.getcwd() + os.path.sep + "properties.ini"
+
   if not os.path.isfile(filepath):
     print("[Setup Config] File path {} does not exist. Exiting...".format(filepath))
     mylogger.logger.debug("[Setup Config] File path {} does not exist. Exiting...".format(filepath))
