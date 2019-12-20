@@ -101,7 +101,7 @@ def reset_sensor(id, metrics,ip=None, port=None):
     sys.exit(1)
 
 def get_login():
-  filepath = os.path.abspath("properties.ini")
+  filepath = os.path.abspath("./properties.ini")
   print(filepath)
   if not os.path.isfile(filepath):
     print("[Get Login] File path {} does not exist. Exiting...".format(filepath))
