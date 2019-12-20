@@ -102,7 +102,7 @@ def reset_sensor(id, metrics,ip=None, port=None):
 
 def get_login():
   if(os.getcwd() == "/"):
-    filepath = "/var/python/Interoperability-Service/properties.ini"
+    filepath = "/var/python/Interoperability-Service/zwave/properties.ini"
   else :
     filepath = os.getcwd()+os.path.sep+"properties.ini"
 
