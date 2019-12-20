@@ -54,10 +54,10 @@ def handle_list(args):
 
 def handle_file(args):
   mylogger.logger.debug("In Handle_File")
-  filepath = args.path
+  filepath = os.path.realpath(args.path)
   if not os.path.isfile(filepath):
-    print("File path {} does not exist. Exiting...".format(filepath))
-    mylogger.logger.debug("File path {} does not exist. Exiting...".format(filepath))
+    print("[Handle File] File path {} does not exist. Exiting...".format(filepath))
+    mylogger.logger.debug("[Handle File] File path {} does not exist. Exiting...".format(filepath))
     sys.exit()
 
   with open(filepath) as file:
@@ -129,8 +129,18 @@ def main():
     globals()[function_name](args)
 
 def setup_config(args):
+  if (os.getcwd() == "/"):
+    filepath = "/var/python/Interoperability-Service/zwave/properties.ini"
+  else:
+    filepath = os.getcwd() + os.path.sep + "properties.ini"
+
+  if not os.path.isfile(filepath):
+    print("[Setup Config] File path {} does not exist. Exiting...".format(filepath))
+    mylogger.logger.debug("[Setup Config] File path {} does not exist. Exiting...".format(filepath))
+    sys.exit(1)
+
   config = configparser.ConfigParser()
-  config.read("properties.ini")
+  config.read(filepath)
   if(args.role == None):
       args.ip = config.get('CONFIG', 'IP')
       args.port = config.get('CONFIG', 'Port')

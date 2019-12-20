@@ -3,6 +3,34 @@
 
 Pour la gestion des capteurs, une interface en ligne de commande a été implémentée. Cette interface permet la création de *printers*. Les *printers* permettent d'afficher ou d'envoyer les données d'un capteur à une API Rest. 
 
+## Service / capteurs.service
+
+Pour installer le service : 
+`$ git clone https://github.com/Master-TNSI-Groupe-1/Interoperability-Service.git`
+
+Pour configurer le service, à placer dans `/etc/systemd/system/capteurs.service` :  
+```ini
+[Unit]
+Description=Service Capteurs
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=Simple
+Restart=Always
+RestartSec=10
+User=root
+ExecStart=/usr/bin/python3 /var/python/Interoperability-Service/zwave/cli.py
+ExecStop=/bin/kill -INT $MAINPID
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Le service se lance via la commande `$ systemctl start capteurs.service`
+Si le fichier de configuration, ou la liste des capteurs associée, est modifié, il faut redémarrer le service via la commande : 
+`$ systemctl restart capteurs.service`
+
 ## Command line / cli.py
 
 `$ python3 cli.py`

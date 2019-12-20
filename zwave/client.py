@@ -1,6 +1,7 @@
 # importing the requests library
 import configparser
 import datetime
+import os
 import requests
 import time
 import sys
@@ -41,7 +42,7 @@ def get_data(id, ip=None, port=None):
   PARAMS = {}
   try:
     # sending get request and saving the response as response object
-    r = requests.get(url=URL, auth=(LOGING[0], LOGING[1]))
+    r = requests.get(url=URL, auth=(LOGIN[0], LOGIN[1]))
     r.raise_for_status()
     # extracting data in json format
     resp = r.json()
@@ -68,7 +69,7 @@ def get_devices(ip=None, port=None):
   devices = []
   try:
     # sending get request and saving the response as response object
-    r = requests.get(url=URL, auth=(LOGING[0], LOGING[1]))
+    r = requests.get(url=URL, auth=(LOGIN[0], LOGIN[1]))
     r.raise_for_status()
     # extracting data in json format
     resp = r.json()
@@ -91,7 +92,7 @@ def reset_sensor(id, metrics,ip=None, port=None):
     # api-endpoint
     URL = "http://" + ip + ":" + port + "/JS/Run/this.controller.devices.get(%22"+id+"%22).set(%22metrics:"+metrics+"%22,0)"
   try:
-    requests.get(url=URL, auth=(LOGING[0], LOGING[1]))
+    requests.get(url=URL, auth=(LOGIN[0], LOGIN[1]))
     mylogger.logger.debug("Capteur "+ id + " remis à 0")
     print("Capteur "+ id + " remis à 0")
   except (Exception) as err:
@@ -100,11 +101,22 @@ def reset_sensor(id, metrics,ip=None, port=None):
     sys.exit(1)
 
 def get_login():
+  if(os.getcwd() == "/"):
+    filepath = "/var/python/Interoperability-Service/zwave/properties.ini"
+  else :
+    filepath = os.getcwd()+os.path.sep+"properties.ini"
+
+
+  if not os.path.isfile(filepath):
+    print("[Get Login] File path {} does not exist. Exiting...".format(filepath))
+    mylogger.logger.debug("[Get Login] File path {} does not exist. Exiting...".format(filepath))
+    sys.exit(1)
+
   config = configparser.ConfigParser()
-  config.read("properties.ini")
+  config.read(filepath)
   user = config.get('LOGIN', 'User')
   passwd = config.get('LOGIN', 'Passwd')
   return user,passwd
 
 if(LOGIN == None):
-  LOGING = get_login()
+  LOGIN = get_login()
