@@ -102,6 +102,7 @@ def reset_sensor(id, metrics,ip=None, port=None):
 def get_login():
   config = configparser.ConfigParser()
   config.read("./properties.ini")
+  print(config.sections())
   user = config.get('LOGIN', 'User')
   passwd = config.get('LOGIN', 'Passwd')
   return user,passwd
