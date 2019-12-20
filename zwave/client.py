@@ -107,4 +107,4 @@ def get_login():
   return user,passwd
 
 if(LOGIN == None):
-  LOGING = get_login()
+  LOGIN = get_login()
