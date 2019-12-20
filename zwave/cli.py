@@ -56,8 +56,8 @@ def handle_file(args):
   mylogger.logger.debug("In Handle_File")
   filepath = os.path.realpath(args.path)
   if not os.path.isfile(filepath):
-    print("File path {} does not exist. Exiting...".format(filepath))
-    mylogger.logger.debug("File path {} does not exist. Exiting...".format(filepath))
+    print("[Handle File] File path {} does not exist. Exiting...".format(filepath))
+    mylogger.logger.debug("[Handle File] File path {} does not exist. Exiting...".format(filepath))
     sys.exit()
 
   with open(filepath) as file:
@@ -131,8 +131,8 @@ def main():
 def setup_config(args):
   filepath = os.path.realpath("properties.ini")
   if not os.path.isfile(filepath):
-    print("File path {} does not exist. Exiting...".format(filepath))
-    mylogger.logger.debug("File path {} does not exist. Exiting...".format(filepath))
+    print("[Setup Config] File path {} does not exist. Exiting...".format(filepath))
+    mylogger.logger.debug("[Setup Config] File path {} does not exist. Exiting...".format(filepath))
     sys.exit(1)
 
   config = configparser.ConfigParser()

@@ -103,8 +103,8 @@ def reset_sensor(id, metrics,ip=None, port=None):
 def get_login():
   filepath = os.path.realpath("properties.ini")
   if not os.path.isfile(filepath):
-    print("File path {} does not exist. Exiting...".format(filepath))
-    mylogger.logger.debug("File path {} does not exist. Exiting...".format(filepath))
+    print("[Get Login] File path {} does not exist. Exiting...".format(filepath))
+    mylogger.logger.debug("[Get Login] File path {} does not exist. Exiting...".format(filepath))
     sys.exit(1)
 
   config = configparser.ConfigParser()
