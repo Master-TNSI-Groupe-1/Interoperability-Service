@@ -54,7 +54,7 @@ def handle_list(args):
 
 def handle_file(args):
   mylogger.logger.debug("In Handle_File")
-  filepath = args.path
+  filepath = os.path.realpath(args.path)
   if not os.path.isfile(filepath):
     print("File path {} does not exist. Exiting...".format(filepath))
     mylogger.logger.debug("File path {} does not exist. Exiting...".format(filepath))
