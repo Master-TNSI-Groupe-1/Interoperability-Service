@@ -129,8 +129,14 @@ def main():
     globals()[function_name](args)
 
 def setup_config(args):
+  filepath = os.path.realpath("properties.ini")
+  if not os.path.isfile(filepath):
+    print("File path {} does not exist. Exiting...".format(filepath))
+    mylogger.logger.debug("File path {} does not exist. Exiting...".format(filepath))
+    sys.exit(1)
+
   config = configparser.ConfigParser()
-  config.read("properties.ini")
+  config.read(filepath)
   if(args.role == None):
       args.ip = config.get('CONFIG', 'IP')
       args.port = config.get('CONFIG', 'Port')
